@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script src="scriptp.js" type="text/javascript"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//jshint esversion:6
+
+
+var req=new XMLHttpRequest();
+var request=new XMLHttpRequest();
+
+request.open("GET","https://restcountries.eu/rest/v2/all",true);
+request.send();
+request.onload = function(){
+
+    var weatherData=JSON.parse(this.response);
+//1.printing the total poulation of the country using reduce() method
+    var totalPopulation=weatherData.reduce((acc,country)=>{
+      return acc+country.population;
+  },0);
+      
+
+console.log("The Total Population of the rest countries is :",totalPopulation);
+
+
+//2.Get all the countries from asian continent/region using filter method:
+
+//0.region
+//0.name
+
+var op=weatherData.filter((element)=>{
+ return element.region=="Asia";
+}).map((item)=>{
+    return item.name;
+});
+
+console.log(op);
+
+
+//3.print all the countries that uses dollar $ as their currencies:
+//239.currencies[0].symbol
+var dollarCountries=weatherData.filter((element)=> 
+            { return element.currencies[0].symbol=="$";}
+     ).map((item)=>{
+         return item.name;
+     });
+     console.log(dollarCountries);
+
+//4.countries that having population less than 2 lakhs
+//0.population
+
+var twolakpop= weatherData.filter((element)=>{
+    return element.population<200000;
+}).map((item)=>{
+    return item.name;
+});
+console.log(twolakpop);
+
+//5.print the following details country name,capital,flag using forEach
+//0.capital
+//0.flag
+var result=weatherData.forEach((element) => {
+   console.log(element.name);
+    console.log(element.capital);
+    console.log(element.flag);
+    
+});
